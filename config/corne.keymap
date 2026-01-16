@@ -1,0 +1,119 @@
+/*
+ * Copyright (c) 2020 The ZMK Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/bt.h>
+
+&mt {
+  tapping-term-ms = <201>;
+  flavor = "tap-preferred";
+ };
+
+/ {
+        conditional_layers {
+           compatible = "zmk,conditional-layers";
+            tri_layer {
+                if-layers = <1 2>;
+                then-layer = <3>;
+            };
+        }; 
+
+        behaviors {
+            tildesc: tilde_escape {
+                compatible = "zmk,behavior-mod-morph";
+                #binding-cells = <0>;
+                bindings = <&kp ESC>, <&kp TILDE>;
+                mods = <(MOD_LSFT|MOD_RSFT)>;
+            };
+      
+            gravetab: grave_tab {
+                compatible = "zmk,behavior-mod-morph";
+                #binding-cells = <0>;
+                bindings = <&kp TAB>, <&kp GRAVE>;
+                mods = <(MOD_LSFT|MOD_RSFT)>;
+            };
+      
+            lhm: left_homerow_mods {
+                compatible = "zmk,behavior-hold-tap";
+                #binding-cells = <2>;
+                tapping-term-ms = <350>;
+                quick-tap-ms = <100>;
+                flavor = "tap-preferred";
+                bindings = <&kp>, <&kp>;
+                hold-trigger-key-positions = <6 7 8 9 10 11 13 14 15 16 18 19 20 21 22 23 30 31 32 33 34 35 36 37 38 39 40 41>;
+            };
+
+            rhm: right_homerow_mods {
+                compatible = "zmk,behavior-hold-tap";
+                #binding-cells = <2>;
+                tapping-term-ms = <350>;
+                quick-tap-ms = <100>;
+                flavor = "tap-preferred";
+                bindings = <&kp>, <&kp>;
+                hold-trigger-key-positions = <0 1 2 3 4 5 12 13 14 15 16 17 19 20 21 22 24 25 26 27 28 29 36 37 38 39 40 41>;
+            };
+        };
+
+        keymap {
+                compatible = "zmk,keymap";
+
+                default_layer {
+// ----------------------------------------------------------------------------------------------------------------------------------------------------
+// | TAB / `  |  Q         |  W        |  E           |  R        |  T  | - |  Y        |  U           |  I        |  O        |  P        | BSPC     |
+// | ESC / ~  |  LCTL / A  | LALT / S  | LSFT / D     | LGUI / F  |  G  | - |  H        | RGUI / J     | RSFT / K  | LALT / L  | RCTL / ;  | RET      |
+// | LSFT / ( |  Z         |  X        |  C           |  V        |  B  | - |  N        |  M           |  ,        |  .        |  /        | RSFT / ) |
+//                         | LGUI / -  | LSHIFT / SPC | SYMBOLS             | SHORTCUTS | RSHIFT / SPC | LALT / '  |
+                        bindings = <
+   &gravetab       &kp Q           &kp W            &kp E         &kp R       &kp T   &kp Y             &kp U        &kp I          &kp O        &kp P            &kp BSPC
+   &tildesc        &lhm LCTRL A    &lhm LALT S      &lhm LSHIFT D &kp LGUI F  &kp G   &kp H             &rhm RGUI J  &rhm RSHIFT K  &rhm LALT L  &rhm RCTRL SEMI  &kp RET
+   &mt LSHIFT LPAR &kp Z           &kp X            &kp C         &kp V       &kp B   &kp N             &kp M        &kp COMMA      &kp DOT      &kp FSLH         &mt RSHIFT RPAR
+                   &mt LGUI MINUS  &mt LSHIFT SPACE &sl 1                     &sl 2   &mt LSHIFT SPACE  &mt LALT SQT
+                        >;
+                };
+                symbols_layer {
+// ------------------------------------------------------------------------------------------
+// |  `       |  !  |  @  |  #  |  $  |  %  |   |  ^     |  &  |  *  |  (  |  )  |  =       |
+// | ESC / ~  |  A  |  S  |  '  |  "  |  ~  |   |  ~     |  {  |  }  |  -  |  _  |  +       |
+// | LSFT / ( |  Z  |  X  |  <  |  >  |  B  |   |  N     |  [  |  ]  |  |  |  \  | RSFT / ) |
+//                        |  -  | SPC |     |   | NUMPAD | SPC |  '  |
+                        bindings = <
+   &kp GRAVE  &kp EXCL  &kp AT   &kp HASH   &kp DLLR   &kp PRCNT      &kp CARET  &kp AMPS  &kp ASTRK  &kp LPAR    &kp RPAR   &kp EQUAL
+   &trans     &trans    &trans   &kp SQT    &kp DQT    &kp TILDE      &kp TILDE  &kp LBRC  &kp RBRC   &kp MINUS   &kp UNDER  &kp PLUS
+   &trans     &trans    &trans   &kp LT     &kp GT     &trans         &trans     &kp LBKT  &kp RBKT   &kp PIPE    &kp BSLH   &trans
+                                 &trans     &trans     &trans         &trans     &trans    &trans
+                        >;
+                };
+
+                shortcuts_layer {
+// -----------------------------------------------------------------------------------------
+// | LOCK |  1  |  2  |  3       |  4       |  5         |   |  6  |  7    |  8    |  9   |  0  | DEL |
+// |      |     |     | LCTL(P)  | LCTL(N)  | VOL_UP     |   | LFT | DWN   |  UP   | RHT  |     |     |
+// |      |     |     | LCTL(<-) | LCTL(->) | VOL_DOWN   |   | F12 | SCSHT | PREV  | NEXT |     |     |
+//                    |   -      |  CAPS    | PLAY/PAUSE |   |     |       | RESET |
+                        bindings = <
+   &kp LG(LC(Q)) &kp N1 &kp N2 &kp N3       &kp N4         &kp N5            &kp N6   &kp N7             &kp N8      &kp N9     &kp N0 &kp DEL
+   &trans        &trans &trans &kp LC(P)    &kp LC(N)      &kp K_VOL_UP      &kp LEFT &kp DOWN           &kp UP      &kp RIGHT  &trans &trans
+   &trans        &trans &trans &kp LC(LEFT) &kp LC(RIGHT)  &kp K_VOL_DN      &kp F12  &kp LG(LC(LS(N4))) &kp K_PREV  &kp K_NEXT &trans &trans
+                               &trans       &caps_word     &kp K_PP          &trans   &trans             &sys_reset
+                        >;
+                };
+
+                numpad_bt_layer {
+// -----------------------------------------------------------------------------------------
+// |          | BT 0 | BT 1  | BT 2  | BT 3 | BT 4        |   |  *  |  7  |  8  |  9  |  +  |    |
+// |          |      |       |       |      | STDIO_UNLCK |   |  /  |  4  |  5  |  6  |  -  |    |
+// | BT_CLEAR |      | BT -> | BT <- |      |             |   |     |  1  |  2  |  3  |  ,  |    |
+//                   |       |       |      |             |   |           |  0  |  .  |
+                        bindings = <
+   &trans     &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT SEL 3 &bt BT_SEL 4        &kp KP_MULTIPLY &kp N7  &kp N8  &kp N9 &kp PLUS  &trans
+   &trans     &trans       &trans       &trans       &trans       &studio_unlock      &kp SLASH       &kp N4  &kp N5  &kp N6 &kp MINUS &trans
+   &bt BT_CLR &trans       &bt BT_NXT   &bt BT_PRV   &trans       &trans              &trans          &kp N1  &kp N2  &kp N3 &kp COMMA &trans
+                                        &trans       &trans       &trans              &trans          &kp N0  &kp DOT
+                        >;
+                };
+        };
+};
