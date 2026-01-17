@@ -68,10 +68,10 @@
 // | LSFT / ( |  Z         |  X        |  C           |  V        |  B  | - |  N        |  M           |  ,        |  .        |  /        | RSFT / ) |
 //                         | LGUI / -  | LSHIFT / SPC | SYMBOLS             | SHORTCUTS | RSHIFT / SPC | LALT / '  |
                         bindings = <
-   &gravetab       &kp Q           &kp W            &kp E         &kp R       &kp T   &kp Y             &kp U        &kp I          &kp O        &kp P            &kp BSPC
-   &tildesc        &lhm LCTRL A    &lhm LALT S      &lhm LSHIFT D &kp LGUI F  &kp G   &kp H             &rhm RGUI J  &rhm RSHIFT K  &rhm LALT L  &rhm RCTRL SEMI  &kp RET
-   &mt LSHIFT LPAR &kp Z           &kp X            &kp C         &kp V       &kp B   &kp N             &kp M        &kp COMMA      &kp DOT      &kp FSLH         &mt RSHIFT RPAR
-                   &mt LGUI MINUS  &mt LSHIFT SPACE &sl 1                     &sl 2   &mt LSHIFT SPACE  &mt LALT SQT
+   &gravetab       &kp Q           &kp W            &kp E         &kp R        &kp T   &kp Y             &kp U        &kp I          &kp O        &kp P            &kp BSPC
+   &tildesc        &lhm LCTRL A    &lhm LALT S      &lhm LSHIFT D &lhm LGUI F  &kp G   &kp H             &rhm RGUI J  &rhm RSHIFT K  &rhm LALT L  &rhm RCTRL SEMI  &kp RET
+   &mt LSHIFT LPAR &kp Z           &kp X            &kp C         &kp V        &kp B   &kp N             &kp M        &kp COMMA      &kp DOT      &kp FSLH         &mt RSHIFT RPAR
+                   &mt LGUI MINUS  &mt LSHIFT SPACE &sl 1                      &sl 2   &mt LSHIFT SPACE  &mt LALT SQT
                         >;
                 };
                 symbols_layer {
